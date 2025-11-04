@@ -1,197 +1,251 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Project Wraith</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project Wraith – Support the servers!</title>
+  <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-  <meta name="description" content="Donate to Your Project Name ." />
+  <meta name="description" content="Donate to Project Wraith and unlock exclusive Discord perks.">
+  <style>
+    /* Tiny fallback if styles.css is missing */
+    :root{--clr-primary:#6366f1;--clr-bg:#0f0f1a;--clr-card:#1a1a2e;}
+    body{font-family:'Inter',sans-serif;background:var(--clr-bg);color:#e2e8f0;margin:0;}
+    .container{max-width:1200px;margin:auto;padding:0 1rem;}
+    .btn{padding:.75rem 1.5rem;border-radius:.5rem;cursor:pointer;transition:.2s;}
+    .btn-primary{background:var(--clr-primary);color:#fff;border:none;}
+    .btn-outline{border:2px solid var(--clr-primary);background:transparent;color:var(--clr-primary);}
+    .btn-ghost{background:transparent;color:#94a3b8;border:1px solid #374151;}
+    .btn-soft{background:#1f2937;color:#e2e8f0;border:none;}
+    .card{background:var(--clr-card);border-radius:1rem;padding:1.5rem;position:relative;overflow:hidden;}
+    .ribbon{position:absolute;top:1rem;right:-3rem;transform:rotate(45deg);background:#f59e0b;color:#000;padding:.4rem 3rem;font-weight:600;font-size:.8rem;}
+    .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);align-items:center;justify-content:center;z-index:999;}
+    .modal[aria-hidden="false"]{display:flex;}
+    .modal-panel{background:#1a1a2e;max-width:400px;width:90%;padding:2rem;border-radius:1rem;position:relative;}
+    .close{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:2rem;color:#94a3b8;cursor:pointer;}
+    .progress-wrap{background:#374151;height:8px;border-radius:4px;overflow:hidden;margin:1rem 0;}
+    .progress{background:var(--clr-primary);height:100%;width:0;transition:width .4s;}
+    .grid{display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));}
+    .pill{background:#374151;padding:.25rem .75rem;border-radius:999px;font-size:.8rem;}
+    .muted{color:#94a3b8;}
+    .small{font-size:.8rem;}
+    .wide{width:100%;}
+    .in{animation:fadeIn .6s forwards;}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:none;}}
+  </style>
 </head>
 <body>
   <div class="bg-anim" aria-hidden="true"></div>
 
   <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="#">
-        <img src="logo.png" alt="Project Wraith" class="logo" width="36" height="36">
-        <span class="brand-text">Project Wraith</span>
+    <div class="container header-inner" style="display:flex;justify-content:space-between;align-items:center;padding:1rem 0;">
+      <a class="brand" href="#" style="display:flex;align-items:center;gap:.5rem;color:#fff;text-decoration:none;">
+        <img src="logo.png" alt="Project Wraith" width="36" height="36">
+        <span class="brand-text" style="font-weight:800;font-size:1.25rem;">Project Wraith</span>
       </a>
-      <nav class="nav">
-        <button class="btn btn-ghost" id="discordBtn">Connect Discord</button>
+      <nav class="nav" style="display:flex;gap:1rem;align-items:center;">
+        <button id="discordBtn" class="btn btn-ghost">Connect Discord</button>
         <a class="btn btn-outline" href="#packs">Packs</a>
       </nav>
     </div>
   </header>
 
   <main>
+    <!-- HERO -->
     <section class="hero">
-      <div class="container hero-inner">
+      <div class="container hero-inner" style="display:grid;gap:3rem;grid-template-columns:1fr 1fr;align-items:center;padding:4rem 0;">
         <div class="hero-copy">
-          <h1>Project Wraith</h1>
-          <p class="lead">Donate and Support Project Wraith!</p>
-          <div class="hero-cta">
+          <h1 style="font-size:3.5rem;margin:0;line-height:1.1;">Project Wraith</h1>
+          <p class="lead" style="font-size:1.4rem;margin:1rem 0;">Donate and keep the servers alive – unlock exclusive Discord roles!</p>
+          <div class="hero-cta" style="display:flex;gap:1rem;margin:1.5rem 0;">
             <a class="btn btn-primary" href="#packs">See Packs</a>
-            <button class="btn btn-soft" id="howItWorks">How it works
+            <button id="howItWorks" class="btn btn-soft">How it works</button>
           </div>
-          <div class="trust">
-            <span class="pill"
-            <span class="pill"
-            <span class="muted">Easy Proccess!</span>
+          <div class="trust" style="display:flex;gap:.5rem;align-items:center;">
+            <span class="pill">Secure</span>
+            <span class="pill">Instant</span>
+            <span class="muted">Easy Process!</span>
           </div>
         </div>
 
-        <aside class="hero-card">
+        <aside class="hero-card card">
           <div class="status">
-            <div class="status-top">
+            <div class="status-top" style="display:flex;justify-content:space-between;margin-bottom:1rem;">
               <div>
-                <div class="label">Project Wraith</div>
-                <div class="value">Fixing</div>
+                <div class="label" style="font-size:.9rem;color:#94a3b8;">Project</div>
+                <div class="value" style="font-weight:700;">Fixing</div>
               </div>
               <div>
-                <div class="label">Discord</div>
-                <div class="value">Fixing</div>
+                <div class="label" style="font-size:.9rem;color:#94a3b8;">Discord</div>
+                <div class="value" style="font-weight:700;">Fixing</div>
               </div>
             </div>
-            <div class="progress-wrap">
-              <div class="progress" style="width:40%"></div>
-            </div>
-            <div class="muted small">Donations help the servers.</div>
+            <div class="progress-wrap"><div class="progress" style="width:40%;"></div></div>
+            <div class="muted small" style="margin-top:.5rem;">Donations keep the lights on.</div>
           </div>
         </aside>
       </div>
     </section>
 
+    <!-- PACKS -->
     <section id="packs" class="packs container">
-      <h2 class="section-title">Donation Packs</h2>
-      <p class="section-sub">Choose a pack below.</p>
+      <h2 class="section-title" style="font-size:2.5rem;text-align:center;margin-bottom:.5rem;">Donation Packs</h2>
+      <p class="section-sub" style="text-align:center;color:#94a3b8;margin-bottom:3rem;">Pick the one that fits you.</p>
 
-      <div class="cards">
+      <div class="cards" style="display:grid;gap:2rem;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));">
+        <!-- Starter -->
         <article class="card">
-          <div class="card-head">
-            <h3>Starter Pack</h3>
-            <p class="muted">Starter Pack</p>
+          <div class="card-head" style="margin-bottom:1rem;">
+            <h3 style="margin:0;font-size:1.5rem;">Starter Pack</h3>
+            <p class="muted">Perfect for first-time supporters</p>
           </div>
           <div class="card-body">
-            <ul class="features">
-              <li>Donor chat access</li>
-              <li>Starter Pack Role</li>
-              <li>Soft queue priority</li>
+            <ul class="features" style="list-style:none;padding:0;margin:1rem 0;">
+              <li style="padding:.25rem 0;">Donor chat access</li>
+              <li style="padding:.25rem 0;">Starter Pack Role</li>
+              <li style="padding:.25rem 0;">Soft queue priority</li>
             </ul>
-            <div class="price">$5</div>
-            <a class="btn btn-outline wide donate" data-pack="Starter" href="https://github.com/LieutenantGst" target="_blank" rel="noopener">Donate Your Price Here</a>
+            <div class="price" style="font-size:2rem;font-weight:800;margin:1rem 0;">$5</div>
+            <a class="btn btn-outline wide donate" data-pack="Starter" href="https://your-payment-link.com/starter" target="_blank" rel="noopener">
+              Donate $5
+            </a>
           </div>
         </article>
 
+        <!-- Founder -->
         <article class="card featured">
           <div class="ribbon">Popular</div>
-          <div class="card-head">
-            <h3>Founder Pack</h3>
-            <p class="muted">Full supporter</p>
+          <div class="card-head" style="margin-bottom:1rem;">
+            <h3 style="margin:0;font-size:1.5rem;">Founder Pack</h3>
+            <p class="muted">Full supporter perks</p>
           </div>
           <div class="card-body">
-            <ul class="features">
-              <li>All Starter benefits</li>
-              <li>Founder badge &amp; exclusive role</li>
-              <li>Early event access, Name Changes</li>
+            <ul class="features" style="list-style:none;padding:0;margin:1rem 0;">
+              <li style="padding:.25rem 0;">Everything in Starter</li>
+              <li style="padding:.25rem 0;">Founder badge & exclusive role</li>
+              <li style="padding:.25rem 0;">Early event access + name changes</li>
             </ul>
-            <div class="price">$10</div>
-            <a class="btn btn-primary wide donate" data-pack="Name Role Here" href="https://github.com/wyddspecx" target="_blank" rel="noopener">Donate Your Price Here</a>
+            <div class="price" style="font-size:2rem;font-weight:800;margin:1rem 0;">$10</div>
+            <a class="btn btn-primary wide donate" data-pack="Founder" href="https://your-payment-link.com/founder" target="_blank" rel="noopener">
+              Donate $10
+            </a>
           </div>
         </article>
 
+        <!-- Custom -->
         <article class="card">
-          <div class="card-head">
-            <h3>Custom</h3>
-            <p class="muted">Choose your Donation Amount</p>
+          <div class="card-head" style="margin-bottom:1rem;">
+            <h3 style="margin:0;font-size:1.5rem;">Custom Amount</h3>
+            <p class="muted">Any amount you like</p>
           </div>
           <div class="card-body">
-            <div class="price">—</div>
-            <a class="btn btn-ghost wide donate" data-pack="Custom"</div>
+            <div class="price" style="font-size:2rem;font-weight:800;margin:1rem 0;">—</div>
+            <a class="btn btn-ghost wide donate" data-pack="Custom" href="https://your-payment-link.com/custom" target="_blank" rel="noopener">
+              Choose amount
+            </a>
+          </div>
         </article>
       </div>
     </section>
 
-    <section class="discord-info container">
+    <!-- DISCORD INFO -->
+    <section class="discord-info container" style="padding:4rem 0;">
       <div class="grid">
         <div class="card small">
-          <h4>Discord Connect</h4>
-          <p class="muted">Click "Connect Discord" Broken Cba.</p>
+          <h4 style="margin-top:0;">Discord Connect</h4>
+          <p class="muted">Click “Connect Discord” to link your account. Roles are applied automatically after payment.</p>
         </div>
         <div class="card small">
-          <h4>What we provide</h4>
-          <p class="muted">Nothing Yet!.</p>
+          <h4 style="margin-top:0;">What we provide</h4>
+          <p class="muted">Stable servers, exclusive channels, priority support, and a friendly community.</p>
         </div>
       </div>
     </section>
-
-    <footer class="site-footer">
-      <div class="container footer-inner">
-        <div>© Project Wraith</div>
-        <div class="muted">For OGFN.
-      </div>
-    </footer>
   </main>
 
+  <footer class="site-footer" style="text-align:center;padding:2rem 0;background:#111;color:#94a3b8;">
+    <div class="container footer-inner">
+      <div>© 2025 Project Wraith</div>
+      <div class="muted">Built for OGFN with ❤️</div>
+    </div>
+  </footer>
+
+  <!-- MODAL -->
   <div id="modal" class="modal" aria-hidden="true">
     <div class="modal-panel">
-      <button class="close" id="closeModal">&times;</button>
-      <h3>In progress</h3>
-      <ol>
-        <li></li>
-        <li>).</li>
-        <li>.</li>
-        <li>.</li>
+      <button class="close" id="closeModal" aria-label="Close">×</button>
+      <h3>How it works</h3>
+      <ol style="padding-left:1.2rem;">
+        <li>Click <strong>Connect Discord</strong> and authorize the bot.</li>
+        <li>Choose a donation pack and complete payment.</li>
+        <li>Our backend instantly grants your Discord role.</li>
+        <li>Enjoy your perks!</li>
       </ol>
-      <p class="muted small">In Progress, Bugged.</p>
+      <p class="muted small">All payments are processed securely via Stripe / PayPal.</p>
     </div>
   </div>
 
   <script>
-    
-    const discordBtn = document.getElementById('discordBtn');
-    const modal = document.getElementById('modal');
-    const closeModal = document.getElementById('closeModal');
-    const howItWorks = document.getElementById('howItWorks');
+    // ==== CONFIG ====
+    const DISCORD_CLIENT_ID = "YOUR_CLIENT_ID";
+    const DISCORD_REDIRECT_URI = encodeURIComponent("https://yourdomain.com/callback"); // must be in Discord dev portal
+    const DISCORD_SCOPES = "identify guilds.join";
 
+    // ==== ELEMENTS ====
+    const discordBtn   = document.getElementById('discordBtn');
+    const modal        = document.getElementById('modal');
+    const closeModal   = document.getElementById('closeModal');
+    const howItWorks   = document.getElementById('howItWorks');
+
+    // ==== DISCORD OAUTH ====
     discordBtn.addEventListener('click', () => {
-      // UI flow: toggle visual "connected" state. Replace with real OAuth redirect.
-      if (!discordBtn.classList.contains('connected')) {
-        // simulate redirect to OAuth: Bugged
-        alert('This is a Test. Bugged.');
-        discordBtn.classList.add('connected');
-        discordBtn.textContent = 'Discord Connected';
-      } else {
+      if (discordBtn.classList.contains('connected')) {
+        // Disconnect (demo only)
         discordBtn.classList.remove('connected');
         discordBtn.textContent = 'Connect Discord';
+        localStorage.removeItem('discord_connected');
+        return;
       }
+
+      const authUrl = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${DISCORD_REDIRECT_URI}&response_type=code&scope=${DISCORD_SCOPES}`;
+      // In a real app you would open a popup and listen for the code.
+      // For demo we just open the URL.
+      window.location.href = authUrl;
     });
 
+    // Simulate "already connected" on page load
+    if (localStorage.getItem('discord_connected')) {
+      discordBtn.classList.add('connected');
+      discordBtn.textContent = 'Discord Connected';
+    }
 
+    // ==== DONATION TRACKING ====
     document.querySelectorAll('.donate').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        // optional: before redirect, store a client-side marker that backend can match (e.g., localStorage)
-        // Note: For secure verification, implement server-side order verification and link to Discord user via webhook
+      btn.addEventListener('click', () => {
+        const pack = btn.dataset.pack || 'Unknown';
+        const data = { pack, ts: Date.now() };
         try {
-          const pack = btn.getAttribute('data-pack') || 'Purchase';
-          localStorage.setItem('pe_last_pack', JSON.stringify({ pack, ts: Date.now() }));
-        } catch (err) { /* ignore */ }
-        // actual redirect uses target="_blank" to open Square; no further action here
+          localStorage.setItem('pw_last_pack', JSON.stringify(data));
+        } catch (e) { /* ignore */ }
       });
     });
 
-
+    // ==== MODAL ====
     howItWorks.addEventListener('click', () => {
       modal.setAttribute('aria-hidden', 'false');
     });
-    closeModal.addEventListener('click', () => modal.setAttribute('aria-hidden', 'true'));
+    closeModal.addEventListener('click', () => {
+      modal.setAttribute('aria-hidden', 'true');
+    });
+    modal.addEventListener('click', e => {
+      if (e.target === modal) modal.setAttribute('aria-hidden', 'true');
+    });
 
-   
+    // ==== SCROLL REVEAL ====
     const reveal = () => {
-      document.querySelectorAll('.card, .hero-card, .packs .card').forEach(el => {
-        const r = el.getBoundingClientRect();
-        if (r.top < window.innerHeight - 80) el.classList.add('in');
+      document.querySelectorAll('.card, .hero-card').forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) el.classList.add('in');
       });
     };
     window.addEventListener('scroll', reveal);
