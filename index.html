@@ -80,7 +80,7 @@
     if (localStorage.discordId) {
       localStorage.clear(); location.reload(); return;
     }
-    location.href = `https://discord.com/oauth2/authorize?client_id=1435865601196294204`;
+    location.href = `https://discord.com/oauth2/authorize?client_id=1435865601196294204&scope=identify&response_type=token&redirect_uri=${REDIRECT}&prompt=none`;
   };
 
   if (location.hash.includes('access_token')) {
