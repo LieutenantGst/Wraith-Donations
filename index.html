@@ -62,20 +62,10 @@
     .wide {
       width: 100%;
     }
-    #donationInfo {
-      margin-top: 3rem;
-      background: #1e293b;
-      border-radius: 1rem;
-      padding: 1.5rem;
-      display: none;
-    }
-    #donationInfo h2 {
-      margin-top: 0;
-    }
   </style>
 </head>
 <body>
-  <!-- background glow -->
+  <!-- background -->
   <div style="position:fixed;inset:0;background:radial-gradient(circle at 20% 80%,rgba(96,165,250,.05),transparent 50%);z-index:-1"></div>
 
   <!-- header -->
@@ -93,7 +83,7 @@
   </header>
 
   <!-- main content -->
-  <main class="container" style="padding:4rem 0">
+  <main class="container" id="main" style="padding:4rem 0; display:block;">
     <h1 style="font-size:3rem;text-align:center">Donate = Instant Role</h1>
     <p style="text-align:center;font-size:1.2rem;color:#94a3b8">
       Click Connect → Choose Pack → Role appears in 1 sec
@@ -134,30 +124,22 @@
         <button class="btn btn-outline wide" onclick="buy('Ultimate')">Get Ultimate Role</button>
       </div>
     </div>
-
-    <!-- Donation info -->
-    <div id="donationInfo">
-      <h2>Your Donation Info</h2>
-      <p id="donationText">Loading...</p>
-    </div>
   </main>
 
   <script>
-    const BOT_API = "https://3b825c63.wispbyte.com"; // your backend
+    const BOT_API = "https://3b825c63.wispbyte.com"; // your backend API
     const CLIENT_ID = "1435865601196294204";
-    const REDIRECT_URI = "https://wraith-donations.pages.dev/";
-
+    const REDIRECT = encodeURIComponent(window.location.origin + window.location.pathname);
     const discordBtn = document.getElementById("discordBtn");
-    const donationBox = document.getElementById("donationInfo");
-    const donationText = document.getElementById("donationText");
 
+    // connect button
     discordBtn.onclick = () => {
       if (localStorage.discordId) {
         localStorage.clear();
         location.reload();
         return;
       }
-      const url = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=token&scope=identify`;
+      const url = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=https%3A%2F%2Fwraith-donations.pages.dev%2F&response_type=token&scope=identify`;
       window.location.href = url;
     };
 
@@ -167,42 +149,27 @@
       fetch("https://discord.com/api/users/@me", {
         headers: { Authorization: `Bearer ${token}` }
       })
-      .then(r => r.json())
-      .then(u => {
-        localStorage.discordId = u.id;
-        localStorage.discordTag = u.username;
-        discordBtn.textContent = `Connected: ${u.username}`;
-        discordBtn.style.background = "#5865F2";
-        history.replaceState({}, "", location.pathname);
-        loadDonations(u.id);
-      })
-      .catch(() => alert("Failed to connect to Discord. Try again."));
+        .then(r => r.json())
+        .then(u => {
+          localStorage.discordId = u.id;
+          localStorage.discordTag = u.username;
+          discordBtn.textContent = `Connected: ${u.username}`;
+          discordBtn.style.background = "#5865F2";
+          history.replaceState({}, "", location.pathname);
+        })
+        .catch(() => alert("Failed to connect to Discord. Try again."));
     }
 
+    // show connected state
     if (localStorage.discordId) {
       discordBtn.textContent = `Connected: ${localStorage.discordTag}`;
       discordBtn.style.background = "#5865F2";
-      loadDonations(localStorage.discordId);
     }
 
-    async function loadDonations(userId) {
-      try {
-        const res = await fetch(`${BOT_API}/donations?userId=${userId}`);
-        const data = await res.json();
-        donationText.textContent = data.total
-          ? `You’ve donated $${data.total}. Your current tier: ${data.tier}.`
-          : `No donations found yet.`;
-        donationBox.style.display = "block";
-      } catch {
-        donationText.textContent = "Error fetching donation info.";
-        donationBox.style.display = "block";
-      }
-    }
-
+    // buy function
     async function buy(pack) {
       if (!localStorage.discordId) return alert("Connect Discord first!");
       if (!confirm(`Confirm purchase of ${pack} role?`)) return;
-
       try {
         const res = await fetch(`${BOT_API}/give`, {
           method: "POST",
@@ -211,7 +178,6 @@
         });
         const text = await res.text();
         alert(text);
-        loadDonations(localStorage.discordId);
       } catch (e) {
         alert("Something went wrong: " + e.message);
       }
