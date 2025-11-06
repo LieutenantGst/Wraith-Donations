@@ -141,15 +141,38 @@
 </main>
 
 <script>
-const CLIENT_ID = "YOUR_CLIENT_ID_HERE"; // Replace with your Discord app client ID
+const CLIENT_ID = "YOUR_CLIENT_ID_HERE"; // Replace
 const REDIRECT = encodeURIComponent(window.location.origin + window.location.pathname);
-const connectBtn = document.getElementById("discordBtn");
+const discordBtn = document.getElementById("discordBtn");
 const packsDiv = document.getElementById("packs");
 const instructions = document.getElementById("instructions");
 
-// Connect Discord button
-connectBtn.onclick = () => {
-  const url = `https://discord.com/oauth2/authorize?client_id=1435865601196294204&redirect_uri=${REDIRECT}&response_type=token&scope=identify`;
+// Function to show connected state
+function showConnected(user) {
+  discordBtn.textContent = `Connected: ${user}`;
+  discordBtn.style.background = "transparent";
+  packsDiv.style.display = "grid";
+  instructions.textContent = "Select a pack to pay!";
+}
+
+// Function to disconnect
+function disconnect() {
+  localStorage.removeItem("discordTag");
+  discordBtn.textContent = "Connect Discord";
+  discordBtn.style.background = "";
+  packsDiv.style.display = "none";
+  instructions.textContent = "Connect your Discord to see donation packs!";
+}
+
+// Connect / Disconnect button logic
+discordBtn.onclick = () => {
+  if (localStorage.discordTag) {
+    if (confirm("Disconnect your Discord account?")) {
+      disconnect();
+    }
+    return;
+  }
+  const url = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT}&response_type=token&scope=identify`;
   window.location.href = url;
 };
 
@@ -162,10 +185,7 @@ if (location.hash.includes("access_token")) {
   .then(r => r.json())
   .then(user => {
     localStorage.discordTag = user.username;
-    connectBtn.textContent = `Connected: ${user.username}`;
-    connectBtn.style.background = "transparent";
-    packsDiv.style.display = "grid";
-    instructions.textContent = "Select a pack to pay!";
+    showConnected(user.username);
     history.replaceState({}, "", location.pathname);
   })
   .catch(err => alert("Failed to connect: " + err.message));
@@ -173,10 +193,7 @@ if (location.hash.includes("access_token")) {
 
 // If already connected
 if (localStorage.discordTag) {
-  connectBtn.textContent = `Connected: ${localStorage.discordTag}`;
-  connectBtn.style.background = "transparent";
-  packsDiv.style.display = "grid";
-  instructions.textContent = "Select a pack to pay!";
+  showConnected(localStorage.discordTag);
 }
 
 // Pay button
