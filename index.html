@@ -149,7 +149,7 @@
           localStorage.discordId = u.id;
           localStorage.discordTag = u.username;
           discordBtn.textContent = `Connected: ${u.username}`;
-          discordBtn.style.background = "#5865F2";
+          discordBtn.style.background = "#fff";
           history.replaceState({}, "", location.pathname);
         })
         .catch(() => alert("Failed to connect Discord"));
