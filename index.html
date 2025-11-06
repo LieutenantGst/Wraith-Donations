@@ -1,55 +1,209 @@
-const packsDiv = document.getElementById("packs");
-const instructions = document.getElementById("instructions");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Wraith - Donate</title>
+<style>
+  :root {
+    --primary: #ff0000; /* red */
+    --bg: #0a0a0a;      /* black background */
+    --text: #ffffff;    /* white text */
+    --card: #1a1a1a;    /* dark card background */
+  }
 
-// Make sure packs are hidden on first load
-packsDiv.style.display = "none";
-instructions.textContent = "Connect your Discord to see donation packs!";
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    text-align: center;
+  }
 
-// Function to show connected state
-function showConnected(user) {
-  discordBtn.textContent = `Connected: ${user}`;
-  discordBtn.style.background = "transparent";
-  packsDiv.style.display = "grid";
-  instructions.textContent = "Select a pack to pay!";
-}
+  header {
+    background: #1a1a1a;
+    padding: 20px;
+    position: sticky;
+    top: 0;
+    border-bottom: 2px solid var(--primary);
+  }
 
-// Disconnect function
-function disconnect() {
-  localStorage.removeItem("discordTag");
-  discordBtn.textContent = "Connect Discord";
-  discordBtn.style.background = "";
+  h1 {
+    margin: 0;
+    color: var(--primary);
+  }
+
+  button {
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    margin: 10px;
+    font-weight: bold;
+    transition: 0.2s;
+  }
+
+  .btn-connect {
+    background: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+  }
+
+  .btn-connect:hover {
+    background: var(--primary);
+    color: var(--bg);
+  }
+
+  .btn-pay {
+    background: var(--primary);
+    color: var(--text);
+  }
+
+  .btn-pay:hover {
+    opacity: 0.8;
+  }
+
+  #packs {
+    display: none;
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 0 20px;
+  }
+
+  .card {
+    background: var(--card);
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid var(--primary);
+    text-align: left;
+  }
+
+  .card h3 {
+    margin-top: 0;
+    color: var(--primary);
+  }
+
+  .card ul {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+  }
+
+  .card ul li {
+    margin: 6px 0;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Project Wraith</h1>
+  <button id="discordBtn" class="btn-connect">Connect Discord</button>
+</header>
+
+<main>
+  <p id="instructions">Connect your Discord to see donation packs!</p>
+
+  <div id="packs">
+    <div class="card">
+      <h3>Starter Pack - $5</h3>
+      <ul>
+        <li>✔ Donor chat</li>
+        <li>✔ Starter role</li>
+        <li>✔ Priority support</li>
+      </ul>
+      <button class="btn-pay" onclick="pay('Starter',5)">Pay $5</button>
+    </div>
+
+    <div class="card">
+      <h3>Founder Pack - $10</h3>
+      <ul>
+        <li>✔ Everything in Starter</li>
+        <li>✔ Gold Founder badge</li>
+        <li>✔ Name changes</li>
+      </ul>
+      <button class="btn-pay" onclick="pay('Founder',10)">Pay $10</button>
+    </div>
+
+    <div class="card">
+      <h3>Ultimate Pack - $15</h3>
+      <ul>
+        <li>✔ Full Locker</li>
+        <li>✔ Private VC</li>
+        <li>✔ Everything from above packs</li>
+      </ul>
+      <button class="btn-pay" onclick="pay('Ultimate',15)">Pay $15</button>
+    </div>
+  </div>
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const discordBtn = document.getElementById("discordBtn");
+  const packsDiv = document.getElementById("packs");
+  const instructions = document.getElementById("instructions");
+
   packsDiv.style.display = "none";
   instructions.textContent = "Connect your Discord to see donation packs!";
-}
 
-// Connect / Disconnect button logic
-discordBtn.onclick = () => {
-  if (localStorage.discordTag) {
-    if (confirm("Disconnect your Discord account?")) {
-      disconnect();
-    }
-    return;
+  const CLIENT_ID = "YOUR_CLIENT_ID_HERE"; // Replace with your Discord client ID
+  const REDIRECT = encodeURIComponent(window.location.origin + window.location.pathname);
+
+  function showConnected(user) {
+    discordBtn.textContent = `Connected: ${user}`;
+    discordBtn.style.background = "transparent";
+    packsDiv.style.display = "grid";
+    instructions.textContent = "Select a pack to pay!";
   }
-  const url = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT}&response_type=token&scope=identify`;
-  window.location.href = url;
-};
 
-// Handle OAuth redirect
-if (location.hash.includes("access_token")) {
-  const token = new URLSearchParams(location.hash.slice(1)).get("access_token");
-  fetch("https://discord.com/api/users/@me", {
-    headers: { Authorization: `Bearer ${token}` }
-  })
-  .then(r => r.json())
-  .then(user => {
-    localStorage.discordTag = user.username;
-    showConnected(user.username);
-    history.replaceState({}, "", location.pathname);
-  })
-  .catch(err => alert("Failed to connect: " + err.message));
-}
+  function disconnect() {
+    localStorage.removeItem("discordTag");
+    discordBtn.textContent = "Connect Discord";
+    discordBtn.style.background = "";
+    packsDiv.style.display = "none";
+    instructions.textContent = "Connect your Discord to see donation packs!";
+  }
 
-// Show connected if already in localStorage
-if (localStorage.discordTag) {
-  showConnected(localStorage.discordTag);
+  discordBtn.onclick = () => {
+    if (localStorage.discordTag) {
+      if (confirm("Disconnect your Discord account?")) {
+        disconnect();
+      }
+      return;
+    }
+    const url = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT}&response_type=token&scope=identify`;
+    window.location.href = url;
+  };
+
+  // Handle OAuth redirect
+  if (location.hash.includes("access_token")) {
+    const token = new URLSearchParams(location.hash.slice(1)).get("access_token");
+    fetch("https://discord.com/api/users/@me", {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(r => r.json())
+      .then(user => {
+        localStorage.discordTag = user.username;
+        showConnected(user.username);
+        history.replaceState({}, "", location.pathname);
+      })
+      .catch(err => alert("Failed to connect: " + err.message));
+  }
+
+  // Show connected if already in localStorage
+  if (localStorage.discordTag) {
+    showConnected(localStorage.discordTag);
+  }
+});
+
+// Payment function - replace URL with your actual payment page
+function pay(pack, amount) {
+  window.open(`https://your-payment-site.com/pay?pack=${pack}&amount=${amount}`, "_blank");
 }
+</script>
+
+</body>
+</html>
