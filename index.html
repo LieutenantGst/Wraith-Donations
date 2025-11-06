@@ -83,8 +83,8 @@
       Connect your Discord to see donation packs!
     </p>
 
-    <!-- ✅ donation packs hidden until Discord connected -->
-    <div id="packs" style="display:none; gap:2rem; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); margin-top:3rem">
+    <!-- Donation packs hidden until connected -->
+    <div id="packs" style="display:none; gap:2rem; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); margin-top:3rem; display:grid;">
       <!-- STARTER -->
       <div class="card">
         <h3>Starter Pack – $5</h3>
@@ -116,59 +116,4 @@
           <li>✔ Private VC</li>
           <li>✔ Everything from above packs</li>
         </ul>
-        <button class="btn btn-outline wide" onclick="pay('ULTIMATE',15)">Pay $15</button>
-      </div>
-    </div>
-  </main>
-
-  <script>
-    const discordBtn = document.getElementById("discordBtn");
-    const packsDiv = document.getElementById("packs");
-    const instructions = document.getElementById("instructions");
-    const CLIENT_ID = "1435865601196294204";
-    const REDIRECT = encodeURIComponent(window.location.origin + window.location.pathname);
-
-    function showPacks() {
-      packsDiv.style.display = "grid";
-      instructions.textContent = "Click a pack to pay!";
-    }
-
-    // Discord connect (cosmetic)
-    discordBtn.onclick = () => {
-      if (localStorage.discordTag) {
-        localStorage.clear();
-        packsDiv.style.display = "none";
-        location.reload();
-        return;
-      }
-      const url = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT}&response_type=token&scope=identify`;
-      window.location.href = url;
-    };
-
-    // OAuth redirect handler
-    if (location.hash.includes("access_token")) {
-      const token = new URLSearchParams(location.hash.slice(1)).get("access_token");
-      fetch("https://discord.com/api/users/@me", {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-      .then(r => r.json())
-      .then(u => {
-        localStorage.discordTag = u.username;
-        discordBtn.textContent = `Connected: ${u.username}`;
-        discordBtn.style.background = "transparent";
-        history.replaceState({}, "", location.pathname);
-        showPacks();
-      })
-      .catch(() => alert("Failed to connect Discord"));
-    }
-
-    // Show packs if already connected
-    if (localStorage.discordTag) {
-      discordBtn.textContent = `Connected: ${localStorage.discordTag}`;
-      discordBtn.style.background = "transparent";
-      showPacks();
-    }
-
-    // Pay function (replace with your payment page)
-    function pay(pack, amount) {
-      const paymentUrl = `https://your-payment-site.com/pay?pack=${pack}&a
+        <button class="btn btn-outline wide" on
